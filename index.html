@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <center>
+      <video id="videoDisplay" autoplay="true">
+      </video>
+    </center>
+  <script type="text/javascript">
+  navigator.getUserMedia = navigator.getUserMedia ||navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUsermedia || navigator.oGetUserMedia;
+ if(navigator.getUserMedia){
+  navigator.getUserMedia({video: true}, handleVideo,videoError);
+ }
+ function handleVideo(stream){
+  document.querySelector('#videoDisplay').src = window.URL.createObjectURL(stream);
+ }
+ function videoError(e){
+  alert("erro");
+ }
+  </script>
+  </body>
+</html>
