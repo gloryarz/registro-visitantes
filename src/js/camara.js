@@ -1,13 +1,27 @@
-const video = document.querySelector('#camera-stream'),
+var db = firebase.firestore(); // Firestore
+
+let video = document.querySelector('#camera-stream'),
       image = document.querySelector('#snap'),
-      start_camera = document.querySelector('#start-camera'),
+      continue2 = document.querySelector('#continue'),
       controls = document.querySelector('.controls'),
       take_photo_btn = document.querySelector('#take-photo'),
       delete_photo_btn = document.querySelector('#delete-photo'),
       download_photo_btn = document.querySelector('#download-photo'),
+      nombreTerm = document.querySelector('#nombreTerm'),
       error_message = document.querySelector('#error-message');
 
+  let nameTrial = 'Fer';
+  let nameWork = 'gloria'
+  let mailTrial = 'gloryarz@gmail.com';
+  localStorage.setItem('userName', nameTrial);
+  localStorage.setItem('worker', nameWork)
+  localStorage.setItem('mail', mailTrial);
+  let visitor = localStorage.getItem('userName');
+  let worker = localStorage.getItem('worker');
+  let mail = localStorage.getItem('mail');
 
+  
+  
   // Utilizamos la funcion getUserMedia para obtener la salida de la webcam
   navigator.getMedia = ( navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
@@ -47,7 +61,7 @@ const video = document.querySelector('#camera-stream'),
 
 
   // En los moviles no se puede reproducir el video automaticamente, programamos funcionamiento del boton inicar camara
-  start_camera.addEventListener("click", function(e){
+  continue2.addEventListener("click", function(e){
 
     e.preventDefault();
 
@@ -59,8 +73,25 @@ const video = document.querySelector('#camera-stream'),
 
 
   take_photo_btn.addEventListener("click", function(e){
+    getPhoto(e);
+    uploadData()
+    setTimeout((event) => {
+      location.href = 'ultima.html';
+    }, 2000)
+  });
 
-    e.preventDefault();
+  const uploadData = () => {
+    console.log(visitor, worker, mail);
+    db.collection('visitantes').add({
+      user: visitor, // ID del usuario logeado
+      worker: worker, // Texto del post
+      mail: mail, // Nombre del usuario
+      photo: 'just'
+    })
+  }
+
+const getPhoto = (e) => {
+  e.preventDefault();
 
     var snap = takeSnapshot();
 
@@ -78,7 +109,7 @@ const video = document.querySelector('#camera-stream'),
     // Pausamos el stream de video de la webcam
     video.pause();
 
-  });
+}
 
 
   delete_photo_btn.addEventListener("click", function(e){
@@ -149,7 +180,7 @@ const video = document.querySelector('#camera-stream'),
     // Limpiamos
 
     controls.classList.remove("visible");
-    start_camera.classList.remove("visible");
+    continue2.classList.remove("visible");
     video.classList.remove("visible");
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
