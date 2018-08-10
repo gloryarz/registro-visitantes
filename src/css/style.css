@@ -181,3 +181,38 @@ h3{
         font-size: 18px;
     }
 }
+
+body {
+    background-color: #DFDCE3;
+    width: 100%;
+    height: 100vh;
+}
+
+.displayCenter {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+
+.marginless {
+    margin-top: -3.5rem;
+}
+
+.padd {
+    padding-top: 2rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    background-color: gold;
+    padding: 1rem;
+}

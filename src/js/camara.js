@@ -1,187 +1,167 @@
 var db = firebase.firestore(); // Firestore
 
 let video = document.querySelector('#camera-stream'),
-      image = document.querySelector('#snap'),
-      continue2 = document.querySelector('#continue'),
-      controls = document.querySelector('.controls'),
-      take_photo_btn = document.querySelector('#take-photo'),
-      delete_photo_btn = document.querySelector('#delete-photo'),
-      download_photo_btn = document.querySelector('#download-photo'),
-      nombreTerm = document.querySelector('#nombreTerm'),
-      error_message = document.querySelector('#error-message');
+  image = document.querySelector('#snap'),
+  continue2 = document.querySelector('#continue'),
+  controls = document.querySelector('.controls'),
+  take_photo_btn = document.querySelector('#take-photo'),
+  delete_photo_btn = document.querySelector('#delete-photo'),
+  download_photo_btn = document.querySelector('#download-photo'),
+  nombreTerm = document.querySelector('#nombreTerm'),
+  error_message = document.querySelector('#error-message');
 
-  let nameTrial = 'Fer';
-  let nameWork = 'gloria'
-  let mailTrial = 'gloryarz@gmail.com';
-  localStorage.setItem('userName', nameTrial);
-  localStorage.setItem('worker', nameWork)
-  localStorage.setItem('mail', mailTrial);
-  let visitor = localStorage.getItem('userName');
-  let worker = localStorage.getItem('worker');
-  let mail = localStorage.getItem('mail');
-
+let visitor = localStorage.getItem('userName');
+let worker = localStorage.getItem('worker');
+let mail = localStorage.getItem('mail');
   
-  
-  // Utilizamos la funcion getUserMedia para obtener la salida de la webcam
-  navigator.getMedia = ( navigator.getUserMedia ||
+delete_photo_btn.style.visibility = 'hidden';
+download_photo_btn.style.visibility = 'hidden';  
+// Utilizamos la funcion getUserMedia para obtener la salida de la webcam
+navigator.getMedia = (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
                         navigator.mozGetUserMedia ||
                         navigator.msGetUserMedia);
 
 
-  if(!navigator.getMedia){
-    displayErrorMessage("Tu navegador no soporta la funcion getMedia.");
-  }
-  else{
+if (!navigator.getMedia) {
+  displayErrorMessage('Tu navegador no soporta la funcion getMedia.');
+} else {
+  // Solicitamos la camara
+  navigator.getMedia(
+    {
+      video: true
+    },
+    function(stream) {
+      // A nuestro componente video le establecemos el src al stream de la webcam
+      video.src = window.URL.createObjectURL(stream);
 
-    // Solicitamos la camara
-    navigator.getMedia(
-      {
-        video: true
-      },
-      function(stream){
-
-        // A nuestro componente video le establecemos el src al stream de la webcam
-        video.src = window.URL.createObjectURL(stream);
-
-        // Reproducimos
-        video.play();
-        video.onplay = function() {
-          showVideo();
-        };
-
-      },
-      function(err){
-        displayErrorMessage("Ocurrio un error al obtener el stream de la webcam: " + err.name, err);
-      }
-    );
-
-  }
+      // Reproducimos
+      video.play();
+      video.onplay = function() {
+        showVideo();
+      };
+    },
+    function(err) {
+      displayErrorMessage('Ocurrio un error al obtener el stream de la webcam: ' + err.name, err);
+    }
+  );
+}
 
 
+// En los moviles no se puede reproducir el video automaticamente, programamos funcionamiento del boton inicar camara
+continue2.addEventListener('click', function(e) {
+  e.preventDefault();
+  continue2.style.display = 'none';
+  // Reproducimos manualmente
+  video.play();
+  showVideo();
+});
 
-  // En los moviles no se puede reproducir el video automaticamente, programamos funcionamiento del boton inicar camara
-  continue2.addEventListener("click", function(e){
 
-    e.preventDefault();
+take_photo_btn.addEventListener('click', function(e) {
+  getPhoto(e);
+  uploadData();
+  setTimeout((event) => {
+    location.href = 'ultima.html';
+  }, 2000);
+});
 
-    // Reproducimos manualmente
-    video.play();
-    showVideo();
-
+const uploadData = () => {
+  console.log(visitor, worker, mail);
+  db.collection('visitantes').add({
+    user: visitor, // ID del usuario logeado
+    worker: worker, // Texto del post
+    mail: mail, // Nombre del usuario
+    photo: 'just'
   });
-
-
-  take_photo_btn.addEventListener("click", function(e){
-    getPhoto(e);
-    uploadData()
-    setTimeout((event) => {
-      location.href = 'ultima.html';
-    }, 2000)
-  });
-
-  const uploadData = () => {
-    console.log(visitor, worker, mail);
-    db.collection('visitantes').add({
-      user: visitor, // ID del usuario logeado
-      worker: worker, // Texto del post
-      mail: mail, // Nombre del usuario
-      photo: 'just'
-    })
-  }
+};
 
 const getPhoto = (e) => {
   e.preventDefault();
 
-    var snap = takeSnapshot();
+  var snap = takeSnapshot();
 
-    // Mostramos la imagen
-    image.setAttribute('src', snap);
-    image.classList.add("visible");
+  // Mostramos la imagen
+  image.setAttribute('src', snap);
+  image.classList.add('visible');
 
-    // Activamos los botones de eliminar foto y descargar foto
-    delete_photo_btn.classList.remove("disabled");
-    download_photo_btn.classList.remove("disabled");
+  // Activamos los botones de eliminar foto y descargar foto
+  delete_photo_btn.classList.remove('disabled');
+  download_photo_btn.classList.remove('disabled');
 
-    // Establecemos el atributo href para el boton de descargar imagen
-    download_photo_btn.href = snap;
+  // Establecemos el atributo href para el boton de descargar imagen
+  download_photo_btn.href = snap;
 
-    // Pausamos el stream de video de la webcam
-    video.pause();
+  // Pausamos el stream de video de la webcam
+  video.pause();
+};
 
+
+delete_photo_btn.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  // Ocultamos la imagen
+  image.setAttribute('src', '');
+  image.classList.remove('visible');
+
+  // Deshabilitamos botones de descargar y eliminar foto
+  delete_photo_btn.classList.add('disabled');
+  download_photo_btn.classList.add('disabled');
+
+  // Reanudamos la reproduccion de la webcam
+  video.play();
+});
+
+
+function showVideo() {
+  // Mostramos el stream de la webcam y los controles
+
+  hideUI();
+  video.classList.add('visible');
+  controls.classList.add('visible');
 }
 
 
-  delete_photo_btn.addEventListener("click", function(e){
+function takeSnapshot() {
+  var hidden_canvas = document.querySelector('canvas'),
+    context = hidden_canvas.getContext('2d');
 
-    e.preventDefault();
+  var width = video.videoWidth,
+    height = video.videoHeight;
 
-    // Ocultamos la imagen
-    image.setAttribute('src', "");
-    image.classList.remove("visible");
+  if (width && height) {
+    // Configuramos el canvas con las mismas dimensiones que el video
+    hidden_canvas.width = width;
+    hidden_canvas.height = height;
 
-    // Deshabilitamos botones de descargar y eliminar foto
-    delete_photo_btn.classList.add("disabled");
-    download_photo_btn.classList.add("disabled");
+    // Hacemos una copia
+    context.drawImage(video, 0, 0, width, height);
 
-    // Reanudamos la reproduccion de la webcam
-    video.play();
-
-  });
-
+    // Convertimos la imagen del canvas en datarurl
+    return hidden_canvas.toDataURL('image/png');
+  }
+}
 
 
-  function showVideo(){
-    // Mostramos el stream de la webcam y los controles
-
-    hideUI();
-    video.classList.add("visible");
-    controls.classList.add("visible");
+function displayErrorMessage(error_msg, error) {
+  error = error || '';
+  if (error) {
+    console.log(error);
   }
 
+  error_message.innerText = error_msg;
 
-  function takeSnapshot(){
-
-    var hidden_canvas = document.querySelector('canvas'),
-        context = hidden_canvas.getContext('2d');
-
-    var width = video.videoWidth,
-        height = video.videoHeight;
-
-    if (width && height) {
-
-      // Configuramos el canvas con las mismas dimensiones que el video
-      hidden_canvas.width = width;
-      hidden_canvas.height = height;
-
-      // Hacemos una copia
-      context.drawImage(video, 0, 0, width, height);
-
-      // Convertimos la imagen del canvas en datarurl
-      return hidden_canvas.toDataURL('image/png');
-    }
-  }
+  hideUI();
+  error_message.classList.add('visible');
+}
 
 
-  function displayErrorMessage(error_msg, error){
-    error = error || "";
-    if(error){
-      console.log(error);
-    }
+function hideUI() {
+  // Limpiamos
 
-    error_message.innerText = error_msg;
-
-    hideUI();
-    error_message.classList.add("visible");
-  }
-
-
-  function hideUI(){
-    // Limpiamos
-
-    controls.classList.remove("visible");
-    continue2.classList.remove("visible");
-    video.classList.remove("visible");
-    snap.classList.remove("visible");
-    error_message.classList.remove("visible");
-  }
+  controls.classList.remove('visible');
+  continue2.classList.remove('visible');
+  video.classList.remove('visible');
+  snap.classList.remove('visible');
+  error_message.classList.remove('visible');
+}
