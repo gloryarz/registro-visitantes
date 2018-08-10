@@ -17,7 +17,7 @@ window.location.href = '/src/views/foto.html';
      .catch(function(error) {
        console.error('Error', error);
      });
-       window.location.href = 'views/foto.html';
+       window.location.href = '../views/foto.html';
  } else {
    form.reportValidity();
  }
