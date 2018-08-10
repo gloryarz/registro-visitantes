@@ -12,7 +12,6 @@ bttnContinue.addEventListener('click', (e) => {
   e.preventDefault(e);
   let newUser = userName.value;
   localStorage.setItem('userName', newUser);
- window.location.href = 'foto.html';
 
   if (form.checkValidity() === true) {
     let fbRef = fb.collection('user').add({
