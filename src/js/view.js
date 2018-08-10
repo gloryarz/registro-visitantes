@@ -2,8 +2,8 @@ const userName = document.getElementById('user-Name');
 const userVisit = document.getElementById('user-visit');
 const bttnContinue = document.getElementById('continue');
 
-let nameWork = 'Lau';
-let mailTrial = 'lau@gmail.com';
+let nameWork = 'Laura Ruíz';
+let mailTrial = 'laura.unam.ents@gmail.com';
 
 localStorage.setItem('worker', nameWork);
 localStorage.setItem('mail', mailTrial);

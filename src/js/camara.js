@@ -14,7 +14,8 @@ let visitor = localStorage.getItem('userName');
 let worker = localStorage.getItem('worker');
 let mail = localStorage.getItem('mail');
   
-  
+delete_photo_btn.style.visibility = 'hidden';
+download_photo_btn.style.visibility = 'hidden';  
 // Utilizamos la funcion getUserMedia para obtener la salida de la webcam
 navigator.getMedia = (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
@@ -50,7 +51,7 @@ if (!navigator.getMedia) {
 // En los moviles no se puede reproducir el video automaticamente, programamos funcionamiento del boton inicar camara
 continue2.addEventListener('click', function(e) {
   e.preventDefault();
-
+  continue2.style.display = 'none';
   // Reproducimos manualmente
   video.play();
   showVideo();
