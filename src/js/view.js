@@ -5,7 +5,7 @@ const bttnContinue = document.getElementById('continue');
 bttnContinue.addEventListener('click', (e) => {
  e.preventDefault(e);
  let newUser = userName.value;
-window.location.href = '/src/views/foto.html';
+
 
  if (form.checkValidity() === true) {
    let fbRef = fb.collection('user').add({
