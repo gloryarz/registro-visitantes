@@ -12,7 +12,7 @@ bttnContinue.addEventListener('click', (e) => {
   e.preventDefault(e);
   let newUser = userName.value;
   localStorage.setItem('userName', newUser);
- 
+ window.location.href = 'foto.html';
 
   if (form.checkValidity() === true) {
     let fbRef = fb.collection('user').add({
@@ -23,7 +23,7 @@ bttnContinue.addEventListener('click', (e) => {
       .catch(function(error) {
         console.error('Error', error);
       });
-    window.location.href = 'src/views/foto.html';
+    window.location.href = 'foto.html';
   } else {
     form.reportValidity();
   }
