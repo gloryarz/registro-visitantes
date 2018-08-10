@@ -23,7 +23,7 @@ bttnContinue.addEventListener('click', (e) => {
       .catch(function(error) {
         console.error('Error', error);
       });
-    window.location.href = 'views/foto.html';
+    window.location.href = 'foto.html';
   } else {
     form.reportValidity();
   }
