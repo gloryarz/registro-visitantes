@@ -14,7 +14,6 @@ let visitor = localStorage.getItem('userName');
 let worker = localStorage.getItem('worker');
 let mail = localStorage.getItem('mail');
 
-
   
 // Utilizamos la funcion getUserMedia para obtener la salida de la webcam
 navigator.getMedia = (navigator.getUserMedia ||
@@ -168,36 +167,36 @@ function hideUI() {
 
 */
 const video = document.getElementById('video'),
-      canvas = document.getElementById('canvas'),
-      context = canvas.getContext('2d'),
-      photo = document.getElementById('photo');
+  canvas = document.getElementById('canvas'),
+  context = canvas.getContext('2d'),
+  photo = document.getElementById('photo');
 
 let vendorURL = window.URL || navigator.webkitURL;
 
 const takePicture = () => {
-    navigator.getMedia = navigator.getUserMedia ||
+  navigator.getMedia = navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia ||
                          navigator.msGetUserMedia;
 
-        navigator.getMedia({
-        video: true,
-        audio: false
-    },  (stream) => {
-        video.src = vendorURL.createObjectURL(stream);
-        console.log(video);
-        video.play();
-    }, (error) => {
-        console.log(error.code);
-    });
+  navigator.getMedia({
+    video: true,
+    audio: false
+  }, (stream) => {
+    video.src = vendorURL.createObjectURL(stream);
+    console.log(video);
+    video.play();
+  }, (error) => {
+    console.log(error.code);
+  });
     
-    document.getElementById('capture').addEventListener('click', el => {
-        context.drawImage(video, 0, 0, 380, 300);
-        photo.setAttribute('src', canvas.toDataURL('image/png'));
-        let savePhoto = photo.src;
-        localStorage.setItem('photo', savePhoto);
-    });
-}
+  document.getElementById('capture').addEventListener('click', el => {
+    context.drawImage(video, 0, 0, 380, 300);
+    photo.setAttribute('src', canvas.toDataURL('image/png'));
+    let savePhoto = photo.src;
+    localStorage.setItem('photo', savePhoto);
+  });
+};
 takePicture();
 
 let visitor = localStorage.getItem('userName');
@@ -210,10 +209,9 @@ var storage = firebase.storage();
 
 
 fileButton.addEventListener('click', el => {
-    file = localStorage.getItem('photo');
-    console.log(file);
-    uploadData();
-    
+  file = localStorage.getItem('photo');
+  console.log(file);
+  uploadData();
 
 
   //  mrBig.innerHTML = `<img src='file'>`

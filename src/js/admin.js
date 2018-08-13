@@ -15,8 +15,8 @@ db.collection('visitantes').onSnapshot((querySnapshot) => {
 
 const showData = (visitorMail, visitorName, workerName, visitorPhoto) => {
   bodyTable.innerHTML += ` <tr>
-  <th scope="row"><img src='${visitorPhoto}'></th>
-  <td>${visitorName} ${visitorMail}</td>
+  <th scope="row"><img src='${visitorPhoto}' class="photos"></th>
+  <td><strong>${visitorName}</strong> <span class="block"> Correo: ${visitorMail}</span></td>
   <td>${workerName}</td>
   <td>@mdo</td>
 </tr>`;
