@@ -1,5 +1,5 @@
 var db = firebase.firestore(); // Firestore
-
+/*
 let video = document.querySelector('#camera-stream'),
   image = document.querySelector('#snap'),
   continue2 = document.querySelector('#continue'),
@@ -13,7 +13,8 @@ let video = document.querySelector('#camera-stream'),
 let visitor = localStorage.getItem('userName');
 let worker = localStorage.getItem('worker');
 let mail = localStorage.getItem('mail');
-  
+
+
   
 // Utilizamos la funcion getUserMedia para obtener la salida de la webcam
 navigator.getMedia = (navigator.getUserMedia ||
@@ -164,3 +165,83 @@ function hideUI() {
   snap.classList.remove('visible');
   error_message.classList.remove('visible');
 }
+
+*/
+const video = document.getElementById('video'),
+      canvas = document.getElementById('canvas'),
+      context = canvas.getContext('2d'),
+      photo = document.getElementById('photo');
+
+let vendorURL = window.URL || navigator.webkitURL;
+
+const takePicture = () => {
+    navigator.getMedia = navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia;
+
+        navigator.getMedia({
+        video: true,
+        audio: false
+    },  (stream) => {
+        video.src = vendorURL.createObjectURL(stream);
+        console.log(video);
+        video.play();
+    }, (error) => {
+        console.log(error.code);
+    });
+    
+    document.getElementById('capture').addEventListener('click', el => {
+        context.drawImage(video, 0, 0, 380, 300);
+        photo.setAttribute('src', canvas.toDataURL('image/png'));
+        let savePhoto = photo.src;
+        localStorage.setItem('photo', savePhoto);
+    });
+}
+takePicture();
+
+let visitor = localStorage.getItem('userName');
+let worker = localStorage.getItem('worker');
+let mail = localStorage.getItem('mail');
+let uploader = document.getElementById('uploader');
+let fileButton = document.getElementById('fileButton');
+let file = '';
+var storage = firebase.storage();
+
+
+fileButton.addEventListener('click', el => {
+    file = localStorage.getItem('photo');
+    console.log(file);
+    uploadData();
+    
+
+
+  //  mrBig.innerHTML = `<img src='file'>`
+  /*  alert('works');
+  var file = localStorage.getItem('photo');
+  console.log(file);
+  
+
+  var storageRef = storage.ref('sweet_gifs/' + file.name);
+
+  var task = storageRef.put(file);*/
+
+  /*
+  task.on('state_changed', 
+    function progress(snapshot) {
+      var percentage = (snapshot.bytesTransferred / 
+        snapshot.totalBytes) * 100;
+      uploader.value = percentage;
+    }
+  ); */
+});
+
+const uploadData = () => {
+  console.log(visitor, worker, mail);
+  db.collection('visitantes').add({
+    user: visitor, // ID del usuario logeado
+    worker: worker, // Texto del post
+    mail: mail, // Nombre del usuario
+    photo: file
+  });
+};

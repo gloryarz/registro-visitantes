@@ -9,7 +9,14 @@
     <h3>Mira a la cámara</h3>
 
   <div class="container">
-
+      <div class="booth">
+          <video id="video" width="380" height="300"></video>
+          <button id="capture" class="btn btn-warning">Take a Photo</button>
+          <canvas id="canvas" width="380" height="300"></canvas>
+          <img id="photo" src="http://placekitten.com/g/380/300" alt="photo">
+          <button id="fileButton">File</button>
+      </div>
+    <!--
     <div class="app">
 
       <a href="#" id="continue" class="visible">Iniciar Demo</a>
@@ -26,10 +33,10 @@
 
       <canvas></canvas>
 
-    </div>
+    </div> -->
 
   </div>
-in
+
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
   <script src="../js/firebase.js"></script>
   <script type="text/javascript" src="../js/camara.js"> </script>
