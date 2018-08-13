@@ -24,5 +24,3 @@ const showData = (visitorMail, visitorName, workerName, visitorPhoto, visitTime,
   <td>${visitTime}</td>
 </tr>`;
 };
-
-getElementsBy

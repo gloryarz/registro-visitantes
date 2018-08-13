@@ -8,8 +8,8 @@ let mailTrial = 'lau@gmail.com';
 localStorage.setItem('worker', nameWork);
 localStorage.setItem('mail', mailTrial);
 
-bttnContinue.addEventListener('click', (e) => {
-  e.preventDefault(e);
+bttnContinue.addEventListener('click', (el) => {
+  el.preventDefault(el);
   let newUser = userName.value;
   localStorage.setItem('userName', newUser);
   window.location.href = '/src/views/foto.html';
