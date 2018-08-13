@@ -166,6 +166,10 @@ function hideUI() {
 }
 
 */
+window.onload = () => {
+  takePicture();
+};
+
 const video = document.getElementById('video'),
   canvas = document.getElementById('canvas'),
   context = canvas.getContext('2d'),
@@ -197,13 +201,17 @@ const takePicture = () => {
     localStorage.setItem('photo', savePhoto);
   });
 };
-takePicture();
+
 
 let visitor = localStorage.getItem('userName');
 let worker = localStorage.getItem('worker');
 let mail = localStorage.getItem('mail');
 let uploader = document.getElementById('uploader');
 let fileButton = document.getElementById('fileButton');
+const newDates = new Date();
+let time = newDates.toLocaleTimeString();
+let date = newDates.toLocaleDateString();
+console.log(date, time);
 let file = '';
 var storage = firebase.storage();
 
@@ -234,12 +242,15 @@ fileButton.addEventListener('click', el => {
   ); */
 });
 
+
 const uploadData = () => {
   console.log(visitor, worker, mail);
   db.collection('visitantes').add({
     user: visitor, // ID del usuario logeado
     worker: worker, // Texto del post
     mail: mail, // Nombre del usuario
-    photo: file
+    photo: file,
+    time: time,
+    date: date
   });
 };
