@@ -3,7 +3,7 @@ const bodyTable = document.getElementById('bodyTable');
 
 // Se obtienen mensajes de firestore
 db.collection('visitantes').onSnapshot((querySnapshot) => {
-  bodyTable.innerHTML = '';  
+  bodyTable.innerHTML = '';
   querySnapshot.forEach((doc) => {
     let visitorID = doc.id; // ID del visitante
     let visitorMail = doc.data().mail; // Mail del visitante
@@ -16,7 +16,7 @@ db.collection('visitantes').onSnapshot((querySnapshot) => {
   });
 });
 
-const showData = (visitorMail, visitorName, workerName, visitorPhoto, visitTime, visitDate) => {  
+const showData = (visitorMail, visitorName, workerName, visitorPhoto, visitTime, visitDate) => {
   bodyTable.innerHTML += ` <tr>
   <th scope="row"><img src='${visitorPhoto}' class="photos"></th>
   <td><strong>${visitorName}</strong> <span class="block"> Correo: ${visitorMail}</span></td>

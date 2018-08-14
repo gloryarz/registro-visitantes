@@ -7,5 +7,6 @@ visitorName.innerHTML = visitor;
 workerName.innerHTML = worker;
 
 setTimeout((event) => {
-    location.href = 'ultima.html';
-  }, 8000);
+  location.href = '../../index.html';
+}, 8000);
+
