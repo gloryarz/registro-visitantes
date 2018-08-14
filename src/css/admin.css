@@ -18,3 +18,11 @@
 	width: 370px;
 	background-color: white;
 }
+.photos {
+    width: 8rem;
+    height: auto;
+}
+
+.block {
+    display: block;
+}
