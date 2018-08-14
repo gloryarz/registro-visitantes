@@ -45,6 +45,7 @@ const takePicture = () => {
 let visitor = localStorage.getItem('userName');
 let worker = localStorage.getItem('worker');
 let mail = localStorage.getItem('mail');
+let visitantMail = localStorage.getItem('visitorMail');
 let uploader = document.getElementById('uploader');
 let fileButton = document.getElementById('fileButton');
 const newDates = new Date();
@@ -62,6 +63,7 @@ const uploadData = () => {
     mail: mail, // Nombre del usuario
     photo: file, // Foto del usuario
     time: time, // Tiempo de registro
-    date: date // Fecha de registro
+    date: date,
+    vMail: visitantMail// Fecha de registro
   });
 };
