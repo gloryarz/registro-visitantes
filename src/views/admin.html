@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> TERMINAL 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/admin.css">
+  </head>
+  <body>
+
+    <section class="container-fluid">
+        <header>
+            <h3>Somos Comunidad T1</h3>
+            <input type="text" placeholder="Buscar">
+            <button>-o</button>
+            <h6>Bienvenida <span id="adminName">Nombre</span></h6>
+        </header>
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Fotos</th>
+                <th scope="col">Información del visitante</th>
+                <th scope="col">Emprendedor y/o empresa a la que visita</th>
+                <th scope="col">HR ENTRADA</th>
+              </tr>
+            </thead>
+            <tbody id="bodyTable">
+            </tbody>
+          </table>
+
+    </section>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+  <script src="../js/firebase.js"></script>
+  <script type="text/javascript" src="../js/admin.js"> </script>
+  </body>
+</html>
